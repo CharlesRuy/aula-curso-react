@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Alert, TouchableHighlight, TouchableOpacity } from "react-native";
+import { View, Text, Alert, TouchableHighlight, TouchableOpacity, ActivityIndicator } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { Button } from "native-base";
 
@@ -17,7 +17,8 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    cursos: []
+    cursos: [],
+    isLoading: true
   }
 
   componentDidMount = async () => {
@@ -25,17 +26,29 @@ class HomeScreen extends React.Component {
     const response = await fetch(urlCursos);
     const responseParsead = await response.json();
 
-    this.setState({ cursos: responseParsead });
+    this.setState({ cursos: responseParsead, isLoading: false });
 
   }
 
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <View >
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )
+    }
+
     return (
       <View style={{ flex: 1 }}>
         {this.state.cursos.map(curso => {
           return (
             <TouchableOpacity
-              onPress={() => Alert.alert(`Clicamos no curso de index ${curso.id} que é o ${curso.nome}`)}
+              onPress={() =>
+                this.props.navigation.navigate('Second', {
+                  id: curso.id
+                })}
               key={curso.nome}
               style={{
                 flexDirection: 'row',
@@ -60,9 +73,9 @@ class HomeScreen extends React.Component {
 class DetailsScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Second',
+    title: 'Detalhes da página',
     headerStyle: {
-      backgroundColor: 'red',
+      backgroundColor: '#f4511e',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -70,18 +83,68 @@ class DetailsScreen extends React.Component {
     },
   };
 
+  state = {
+    cursoDetalhado: [],
+    alunosCadastrados: [],
+    isLoading: true
+  }
+
+  componentDidMount = async () => {
+
+    const { navigation } = this.props;
+    const itemId = navigation.getParam('id');
+
+    const urlCursoDetalhado = `http://104.248.133.2:7001/cursos/${itemId}`;
+    const response = await fetch(urlCursoDetalhado);
+    const responseParsead = await response.json();
+
+    const urlAlunosInscritos = `http://104.248.133.2:7001/cursos/${itemId}/alunos-inscritos`;
+    const responseAlunos = await fetch(urlAlunosInscritos);
+    const responseParsedAlunos = await responseAlunos.json();
+
+    this.setState({ cursoDetalhado: responseParsead[0], alunosCadastrados: responseParsedAlunos, isLoading: false })
+
+  }
+
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <View >
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )
+    }
+
     return (
-      <View>
-        <Text>Funcionando a navegação</Text>
-        <TouchableHighlight style={{ height: 30, width: 30, backgroundColor: 'blue' }} onPress={() => Alert.alert('aushuash')}>
-          <Text>asuauahsa</Text>
-        </TouchableHighlight>
+      <View style={{ flex: 1, backgroundColor: '#eee', padding: 20 }}>
+
+        <View style={{ backgroundColor: '#fff', borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 12 }}>
+          <Text>Id :{this.state.cursoDetalhado.id}</Text>
+          <Text>Curso: {this.state.cursoDetalhado.nome}</Text>
+          <Text>Professor: {this.state.cursoDetalhado.professor}</Text>
+          <Text>Local: {this.state.cursoDetalhado.local}</Text>
+        </View>
+
+        <View style={{ marginTop: 10, backgroundColor: '#fff', borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 12 }}>
+          <View style={{
+            backgroundColor: '#bbb',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15
+          }}>
+            <Text>ALUNOS CADASTRADOS</Text>
+          </View>
+          <Text>ALUNOS CADASTRADOS</Text>
+          <Text>Id :{this.state.cursoDetalhado.id}</Text>
+          <Text>Curso: {this.state.cursoDetalhado.nome}</Text>
+          <Text>Professor: {this.state.cursoDetalhado.professor}</Text>
+          <Text>Local: {this.state.cursoDetalhado.local}</Text>
+        </View>
       </View>
     )
   }
 }
-
 
 const AppNavigator = createStackNavigator({
   Home: {
