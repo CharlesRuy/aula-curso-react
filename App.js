@@ -58,8 +58,8 @@ class HomeScreen extends React.Component {
                 // justifyContent: 'center',
                 alignItems: 'center'
               }}>
-              <Text style={{ marginLeft: 15, fontSize: 22 }}> {curso.id}</Text>
-              <Text style={{ marginLeft: 15, fontSize: 22 }}>{curso.nome}</Text>
+              <Text style={{ marginLeft: 15, fontSize: 22, color: 'black', fontWeight: 'bold' }}> Curso: </Text>
+              <Text style={{ marginLeft: 15, fontSize: 22, color: 'black' }}>{curso.id} - {curso.nome}</Text>
               <Button>
               </Button>
             </TouchableOpacity>
@@ -119,27 +119,44 @@ class DetailsScreen extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#eee', padding: 20 }}>
 
-        <View style={{ backgroundColor: '#fff', borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 12 }}>
-          <Text>Id :{this.state.cursoDetalhado.id}</Text>
-          <Text>Curso: {this.state.cursoDetalhado.nome}</Text>
-          <Text>Professor: {this.state.cursoDetalhado.professor}</Text>
-          <Text>Local: {this.state.cursoDetalhado.local}</Text>
-        </View>
-
-        <View style={{ marginTop: 10, backgroundColor: '#fff', borderColor: '#ccc', borderWidth: 1, borderRadius: 5, padding: 12 }}>
+        <View style={{ backgroundColor: '#fff', borderColor: '#000', borderWidth: 10, borderRadius: 5, padding: 12 }}>
           <View style={{
-            backgroundColor: '#bbb',
+            backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 15
+            padding: 15,
+            borderWidth: 2,
+            borderColor: '#555',
+            borderRadius: 60,
+            marginBottom: 20
           }}>
-            <Text>ALUNOS CADASTRADOS</Text>
+            <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>INFORMAÇÕES DO CURSO</Text>
           </View>
-          <Text>ALUNOS CADASTRADOS</Text>
-          <Text>Id :{this.state.cursoDetalhado.id}</Text>
-          <Text>Curso: {this.state.cursoDetalhado.nome}</Text>
-          <Text>Professor: {this.state.cursoDetalhado.professor}</Text>
-          <Text>Local: {this.state.cursoDetalhado.local}</Text>
+          <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold' }}>Curso: 
+            <Text style={{ fontSize: 16, color: '#333', fontWeight: 'normal' }}> {this.state.cursoDetalhado.nome}</Text>
+          </Text>
+          <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold' }}>Professor: 
+            <Text style={{ fontSize: 16, color: '#333', fontWeight: 'normal' }}> {this.state.cursoDetalhado.professor}</Text>
+          </Text>
+          <Text style={{ fontSize: 16, color: 'black', fontWeight: 'bold' }}>Local: 
+            <Text style={{ fontSize: 16, color: '#333', fontWeight: 'normal' }}> {this.state.cursoDetalhado.local}</Text>
+          </Text>
+        </View>
+
+        <View style={{ marginTop: 10, backgroundColor: '#fff', borderColor: '#000', borderWidth: 10, borderRadius: 5, padding: 12 }}>
+          <View style={{
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15,
+            borderWidth: 2,
+            borderColor: '#555',
+            borderRadius: 60,
+            marginBottom: 20
+          }}>
+            <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>ALUNOS CADASTRADOS</Text>
+          </View>
+          {/*TODO: Buscar alunos cadastrados no curso escolhido */}
         </View>
       </View>
     )
