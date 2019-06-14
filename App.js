@@ -117,8 +117,8 @@ class DetailsScreen extends React.Component {
     }
 
     return (
+      
       <View style={{ flex: 1, backgroundColor: '#eee', padding: 20 }}>
-
         <View style={{ backgroundColor: '#fff', borderColor: '#000', borderWidth: 10, borderRadius: 5, padding: 12 }}>
           <View style={{
             backgroundColor: '#fff',
@@ -156,8 +156,31 @@ class DetailsScreen extends React.Component {
           }}>
             <Text style={{ fontSize: 18, color: 'black', fontWeight: 'bold' }}>ALUNOS CADASTRADOS</Text>
           </View>
-          {/*TODO: Buscar alunos cadastrados no curso escolhido */}
+          {this.state.alunosCadastrados.map(aluno => {
+          return (
+            <View
+              onPress={() =>
+                this.props.navigation.navigate('Second', {
+                  id: aluno.id
+                })}
+              key={aluno.nome}
+              style={{
+                flexDirection: 'row',
+                borderBottomColor: '#ccc',
+                borderBottomWidth: 1,
+                // justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <Text>
+                <Text style={{ marginLeft: 15, fontSize: 16, color: 'black', fontWeight: 'bold' }}> - </Text>
+                <Text style={{ marginLeft: 15, fontSize: 16, color: 'black' }}>{aluno.nome}</Text>
+              </Text>
+            </View>
+          )
+        })}
         </View>
+
+        
       </View>
     )
   }
